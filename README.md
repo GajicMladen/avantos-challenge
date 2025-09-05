@@ -1,1 +1,0 @@
-# avantos-challenge
