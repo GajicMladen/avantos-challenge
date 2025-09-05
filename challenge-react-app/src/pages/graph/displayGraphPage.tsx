@@ -1,10 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useLazyGetBlueprintsQuery } from "../../service/blueprints/blueprints-service"
-import { CustomFlowGraph, EdgeToDraw, NodeToDraw } from "./customFlowGraph";
+import { CustomFlowGraph } from "./customFlowGraph";
+import { mapDtoEdgesToGraphEdges, mapDtoNodesToGraphNodes } from "../../service/blueprints/mappers/graphMapper";
+import { useAppDispatch, useAppSelector } from "../../sotore/store.hooks";
+import { setGraph } from "../../sotore/graph-slice";
 
 export const DisplayGraphPage = () => {
 
-    const [getBluePrints, { data: blueprints, isSuccess, isLoading, isError }] = useLazyGetBlueprintsQuery();
+    const dispatch = useAppDispatch();
+    const nodes = useAppSelector((state) => state.graph.nodes);
+    const edges = useAppSelector((state) => state.graph.edges);
+
+    const [getBluePrints, { data: blueprints }] = useLazyGetBlueprintsQuery();
 
     useEffect(() => {
         getBluePrints({
@@ -13,21 +20,20 @@ export const DisplayGraphPage = () => {
         });
     }, [getBluePrints])
 
-    const [nodes, setNodes] = useState<NodeToDraw[]>([]);
-    const [edges, setEdges] = useState<EdgeToDraw[]>([]);
-
     useEffect(() => {
-        if (blueprints != undefined && blueprints.nodes.length > 0 && blueprints.edges.length > 0) {
-            setNodes(blueprints.nodes.map(x => ({ id: x.id, position: { x: x.position.x, y: x.position.y }, data: { label: x.data.name } })));
-            setEdges(blueprints.edges.map(x => ({ id: `${x.source}-${x.target}`, source: x.source, target: x.target })));
+        if (blueprints !== undefined && blueprints.nodes.length > 0 && blueprints.edges.length > 0) {
+            console.log('ovde');
+            dispatch(setGraph({
+                nodes: mapDtoNodesToGraphNodes(blueprints.forms, blueprints.nodes),
+                edges: mapDtoEdgesToGraphEdges(blueprints.edges)
+            }));
 
         }
-    }, [
-        blueprints
-    ])
+    }, [blueprints, dispatch])
 
     return <>
-        {blueprints?.nodes.length &&
+        {nodes.length > 0 &&
             <CustomFlowGraph nodes={nodes} edges={edges} />}
+
     </>
 }

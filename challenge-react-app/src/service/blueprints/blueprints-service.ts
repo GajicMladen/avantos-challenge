@@ -15,7 +15,6 @@ const blueprintEndpoints = avantosApiSlice.injectEndpoints({
     })
 });
 
-
 export const {
     useLazyGetBlueprintsQuery
 } = blueprintEndpoints;

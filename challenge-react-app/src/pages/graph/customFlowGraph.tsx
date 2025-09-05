@@ -1,52 +1,59 @@
 
-import { addEdge, applyEdgeChanges, applyNodeChanges, Edge, ReactFlow } from '@xyflow/react';
+import { Edge, Node, NodeMouseHandler, ReactFlow } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useCallback, useState } from 'react';
-
-const initialNodes = [
-    { id: 'n1', position: { x: 0, y: 0 }, data: { label: 'Node 1' } },
-    { id: 'n2', position: { x: 0, y: 100 }, data: { label: 'Node 2' } },
-];
-const initialEdges = [{ id: 'n1-n2', source: 'n1', target: 'n2' }];
-
-
-//gonna be refactored later 
-export type NodeToDraw = { id: string, position: { x: number, y: number }, data: { label: string } }
-export type EdgeToDraw = { id: string, source: string, target: string }
+import PrefillFormModal from '../form/prefillFormModal';
+import { FieldMapping, GraphNodeData } from '../../model/blueprint';
+import { useAppSelector } from '../../sotore/store.hooks';
 
 export type FlowGraphProps = {
-    nodes: NodeToDraw[];
-    edges: EdgeToDraw[];
+    nodes: Node[];
+    edges: Edge[];
 }
 
 export const CustomFlowGraph = (props: FlowGraphProps) => {
 
-    const [nodes, setNodes] = useState(props.nodes);
-    const [edges, setEdges] = useState(props.edges);
+    const nodes = useAppSelector((state) => state.graph.nodes);
+    const edges = useAppSelector((state) => state.graph.edges);
 
-    const onNodesChange = useCallback(
-        (changes: any) => setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot)),
-        [],
-    );
-    const onEdgesChange = useCallback(
-        (changes: any) => setEdges((edgesSnapshot) => applyEdgeChanges(changes, edgesSnapshot)),
-        [],
-    );
-    const onConnect = useCallback(
-        (params: any) => { },
-        [],
+    const [selectedNode, setSelectedNode] = useState<Node | null>(null);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+    const onNodeClick: NodeMouseHandler = useCallback((_, node) => {
+        setSelectedNode(node);
+        setIsDialogOpen(true);
+    }, []);
+
+    const getNodeFormState = useCallback(
+        (nodeId: string): Record<string, FieldMapping> => {
+            const node = nodes.find((n) => n.id === nodeId);
+            return (node?.data.fieldMappings as Record<string, FieldMapping>) || {};
+        },
+        [nodes]
     );
 
     return (
-        <div style={{ width: '100vw', height: '100vh' }}>
-            <ReactFlow
-                nodes={nodes}
-                edges={edges}
-                onNodesChange={onNodesChange}
-                onEdgesChange={onEdgesChange}
-                onConnect={onConnect}
-                fitView
-            />
-        </div>
+        <>
+            <span>{nodes.length}</span>
+            <div style={{ width: '100vw', height: '100vh' }}>
+                <ReactFlow
+                    nodes={nodes}
+                    edges={edges}
+                    onNodesChange={() => { }}
+                    onEdgesChange={() => { }}
+                    onConnect={() => { }}
+                    onNodeClick={onNodeClick}
+                    fitView
+                />
+                {(selectedNode && isDialogOpen) && (
+                    <PrefillFormModal
+                        onClose={() => setIsDialogOpen(false)}
+                        nodeId={selectedNode.id}
+                        data={selectedNode.data as unknown as GraphNodeData}
+                        initialFieldMappings={getNodeFormState(selectedNode.id)}
+                    />
+                )}
+            </div>
+        </>
     );
 }

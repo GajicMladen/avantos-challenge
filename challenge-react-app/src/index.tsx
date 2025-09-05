@@ -8,6 +8,8 @@ import { ToastContainer } from 'react-toastify';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router';
 
+import "primereact/resources/themes/lara-light-cyan/theme.css";
+
 const root = ReactDOM.createRoot(document.getElementById('root')!);
 root.render(
 
