@@ -19,7 +19,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=3001 react-scripts start",
+    "start:default": "react-scripts start",
+    "start:3000": "PORT=3000 react-scripts start",
+    "start:3001": "PORT=3001 react-scripts start",
+    "start:3002": "PORT=3002 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -47,6 +51,11 @@
     "@types/jest": "^30.0.0",
     "@types/react": "^18.3.24",
     "@types/react-dom": "^18.3.7",
-    "sass": "^1.92.0"
+    "sass": "^1.92.1"
+  },
+  "overrides": {
+    "nth-check": "^2.1.1",
+    "postcss": "^8.4.31",
+    "webpack-dev-server": "^4.15.2"
   }
 }
