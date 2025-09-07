@@ -28,7 +28,7 @@ export default function PrefillFormModal(props: PrefillFormModelProps) {
             <div className={styles.DialogBG}>
                 <Dialog header={node.data.label as string} visible={true} style={{ width: '50vw' }} onHide={props.onClose} className={styles.Dialog}>
                     <div className={styles.fields}>
-                        {(node.data.formFields as string[]).map((field: string) => {
+                        {(node.data.formFields as string[]) && (node.data.formFields as string[]).map((field: string) => {
                             const mappedValue = (node.data.fieldMappings as Record<string, FieldMapping> || {})[field];
 
                             if (mappedValue) {

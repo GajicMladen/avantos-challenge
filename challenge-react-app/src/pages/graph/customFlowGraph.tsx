@@ -13,8 +13,8 @@ export type FlowGraphProps = {
 
 export const CustomFlowGraph = (props: FlowGraphProps) => {
 
-    const nodes = useAppSelector((state) => state.graph.nodes);
-    const edges = useAppSelector((state) => state.graph.edges);
+    const nodes = useAppSelector((state) => state.graph.nodes || []);
+    const edges = useAppSelector((state) => state.graph.edges || []);
 
     const [selectedNode, setSelectedNode] = useState<Node | null>(null);
     const [isDialogOpen, setIsDialogOpen] = useState(false);

@@ -21,6 +21,7 @@
     "jsx": "react-jsx",
     "sourceMap": true,
     "inlineSources": true,
+    "types": ["jest", "node"],
     // Set `sourceRoot` to  "/" to strip the build path prefix
     // from generated source code references.
     // This improves issue grouping in Sentry.
