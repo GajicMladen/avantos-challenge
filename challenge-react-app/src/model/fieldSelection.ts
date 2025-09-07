@@ -1,14 +1,4 @@
-export interface DependencyForm {
-    nodeId: string;
-    nodeName: string;
-    formId: string;
-    formFields: string[];
-}
-
-export interface DependencyData {
-    directDependencies: DependencyForm[];
-    transitiveDependencies: DependencyForm[];
-}
+import { DependencyData, FieldMapping } from "./graph";
 
 export interface GlobalData {
     actionProperties: {
@@ -23,13 +13,6 @@ export interface GlobalData {
     };
 }
 
-export interface FieldMapping {
-    label: string;
-    value: string;
-    source: string;
-}
-
-// Type alias for clarity - DataOption is conceptually the same as FieldMapping
 export type DataOption = FieldMapping;
 
 export interface GraphNodeData {
@@ -47,7 +30,7 @@ export interface DataSection {
 }
 
 export enum DataSectionType {
+    GLOBAL = "global",
     DIRECT = "direct",
     TRANSITIVE = "transitive",
-    GLOBAL = "global",
 }

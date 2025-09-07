@@ -2,8 +2,8 @@
 import { Edge, Node, NodeMouseHandler, ReactFlow } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useCallback, useState } from 'react';
-import PrefillFormModal from '../form/prefillFormModal';
-import { FieldMapping, GraphNodeData } from '../../model/blueprint';
+import PrefillFormModal from '../prefillForm/prefillFormModal';
+import { FieldMapping } from '../../model/graph';
 import { useAppSelector } from '../../sotore/store.hooks';
 
 export type FlowGraphProps = {
@@ -49,8 +49,6 @@ export const CustomFlowGraph = (props: FlowGraphProps) => {
                     <PrefillFormModal
                         onClose={() => setIsDialogOpen(false)}
                         nodeId={selectedNode.id}
-                        data={selectedNode.data as unknown as GraphNodeData}
-                        initialFieldMappings={getNodeFormState(selectedNode.id)}
                     />
                 )}
             </div>

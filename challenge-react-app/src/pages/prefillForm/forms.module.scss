@@ -1,0 +1,92 @@
+.DialogBG {
+    width: 100vw;
+    height: 100vw;
+    background-color: rgba(0, 0, 0, 0.1);
+
+    .Dialog {
+        background-color: white;
+    }
+}
+
+.fields {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+
+    .prefilledField {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        justify-content: space-between;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        background: #eae6e6;
+        border-radius: 20px;
+
+
+        .deleteIcon {
+            cursor: pointer;
+
+            path {
+                fill: red;
+            }
+        }
+    }
+
+    .noPrefilledField {
+
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        border-radius: 8px;
+        background-color: #dfdfdf;
+        border: 1px dashed #605b5b;
+        padding: 8px;
+
+        &:hover {
+            background-color: #c4f3f3;
+            cursor: pointer;
+        }
+
+    }
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .option {
+
+        padding: 8px;
+        border-radius: 8px;
+        transition: 0.1s;
+
+        &.active {
+            background-color: #ffe766;
+        }
+
+        &:hover {
+            background-color: rgb(221, 245, 245);
+            cursor: pointer;
+
+        }
+    }
+}
+
+
+.splitContent {
+    display: flex;
+    flex-direction: row;
+
+    .selectedValue {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 0 20px;
+    }
+}

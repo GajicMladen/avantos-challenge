@@ -1,6 +1,6 @@
 import { Edge, Node } from "@xyflow/react";
 import { EdgeItem, FormItem, NodeItem } from "../responses/blueprints-response";
-import { DependencyData, DependencyForm } from "../../../model/blueprint";
+import { DependencyData, DependencyForm } from "../../../model/graph";
 
 /**
  * Maps DTO NodeItems into graph nodes usable by @xyflow/react.
@@ -91,7 +91,7 @@ const getTransitiveDependencies = (
         if (!currentNode) continue;
 
         // Add current dependency if valid
-        const form = forms.find((f) => f.id === currentNode.data.component_id);
+        const form = forms.find((f) => f.id === currentNode.data.component_id && !node.data.prerequisites.includes(currentNode.id));
         if (form) {
             transitiveDeps.push({
                 nodeId: currentNode.id,

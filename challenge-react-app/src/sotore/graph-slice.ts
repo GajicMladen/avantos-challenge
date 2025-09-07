@@ -4,21 +4,8 @@ import { type Edge, type Node } from "@xyflow/react";
 export type GraphState = {
     nodes: Node[];
     edges: Edge[];
-    globalData: GlobalData;
 };
 
-export interface GlobalData {
-    actionProperties: {
-        name: string;
-        category: string;
-        tenant_id: string;
-    };
-    clientOrganizationProperties: {
-        organization_name: string;
-        organization_email: string;
-        primary_contact: string;
-    };
-}
 interface InitStatePayload extends Partial<GraphState> { }
 
 interface UpdateFormFieldMappingPayload {
@@ -27,7 +14,7 @@ interface UpdateFormFieldMappingPayload {
     mapping: any;
 }
 
-interface RemoveFormFieldMappingPayload {
+interface DeleteMappingPayload {
     nodeId: string;
     fieldName: string;
 }
@@ -35,18 +22,6 @@ interface RemoveFormFieldMappingPayload {
 const initialState: GraphState = {
     nodes: [],
     edges: [],
-    globalData: {
-        actionProperties: {
-            name: "",
-            category: "",
-            tenant_id: ""
-        },
-        clientOrganizationProperties: {
-            organization_name: "",
-            organization_email: "",
-            primary_contact: ""
-        }
-    }
 }
 
 export const GraphSlice = createSlice({
@@ -73,17 +48,20 @@ export const GraphSlice = createSlice({
             }
         },
 
-        // Removes a specific field mapping from a node
-        removeFormFieldMapping: (
+        //Delete field maping
+        deleteFromFileMapping: (
             state,
-            action: PayloadAction<RemoveFormFieldMappingPayload>
+            action: PayloadAction<DeleteMappingPayload>
         ) => {
-            const { nodeId, fieldName } = action.payload;
+            const { nodeId, fieldName, } = action.payload;
             const node = state.nodes.find((n) => n.id === nodeId);
             if (node && node.data.fieldMappings) {
                 delete (node.data.fieldMappings as Record<string, any>)[fieldName];
             }
-        },
+
+        }
+
+
     }
 });
 
@@ -91,7 +69,7 @@ export const GraphSlice = createSlice({
 export const {
     setGraph,
     updateFormFieldMapping,
-    removeFormFieldMapping,
+    deleteFromFileMapping
 } = GraphSlice.actions;
 
 export default GraphSlice.reducer;
