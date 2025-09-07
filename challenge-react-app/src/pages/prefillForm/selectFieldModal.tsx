@@ -9,6 +9,7 @@ import { useState } from "react"
 import { DataOption } from "../../model/fieldSelection"
 import { useAppDispatch } from "../../sotore/store.hooks"
 import { updateFormFieldMapping } from "../../sotore/graph-slice"
+import { toast } from "react-toastify"
 
 export type SelectFieldModalProps = {
     onClose: () => void,
@@ -28,14 +29,20 @@ export const SelectFieldModal = (props: SelectFieldModalProps) => {
         <div>
             <Button label="Cancel" onClick={props.onClose} className="p-button-text" />
             <Button label="Save" onClick={() => {
-                dispatch(updateFormFieldMapping({
-                    nodeId: props.node.id,
-                    fieldName: props.field,
-                    mapping: {
-                        ...selectedOption
-                    }
-                }));
-                props.onClose();
+                if (selectedOption) {
+
+                    dispatch(updateFormFieldMapping({
+                        nodeId: props.node.id,
+                        fieldName: props.field,
+                        mapping: {
+                            ...selectedOption
+                        }
+                    }));
+                    props.onClose();
+                }
+                else {
+                    toast.error("You must select some value");
+                }
             }} />
         </div>
     );
